@@ -54,7 +54,7 @@ curl -L -O https://github.com/Pankajsharma05/ArXiv-Library-releases/releases/lat
 sudo dpkg -i arxivlibrary.deb
 ```
 
-Make sure the asset filenames match what you upload to each release.
+
 
 ## Installation notes
 
@@ -66,7 +66,7 @@ installer needed.
 choose **Open**, then confirm. Or run:
 
 ```
-xattr -cr /Applications/ArXivLibrary.app
+sudo xattr -cr /Applications/ArXivLibrary.app
 ```
 
 **Linux** — For the AppImage:
@@ -89,8 +89,7 @@ sudo dpkg -i arxivlibrary.deb
 
 ## Feedback
 
-Found a bug or have a feature request? Open an issue or email
-pankajsharma6810@gmail.com.
+Found a bug or have a feature request? Open an issue here.
 
 ## Acknowledgements
 
