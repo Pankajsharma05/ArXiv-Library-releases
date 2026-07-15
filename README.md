@@ -42,7 +42,7 @@ Each release asset can be downloaded directly with `curl`. The
 curl -L -O https://github.com/Pankajsharma05/ArXiv-Library-releases/releases/latest/download/ArXivLibrary/ArXivLibrary_macOS_v1.0.0.dmg
 
 # Windows (PowerShell)
-curl.exe -L -O https://github.com/Pankajsharma05/ArXiv-Library-releases/releases/latest/download/ArXivLibrary/ArXivLibrary_win_v1.0.0.exe
+curl.exe -L -O https://github.com/Pankajsharma05/ArXiv-Library-releases/releases/latest/download/ArXivLibrary/ArXivLibrary_v1.0.0_x64-setup.exe
 
 # Linux (AppImage)
 curl -L -O https://github.com/Pankajsharma05/ArXiv-Library-releases/releases/latest/download/ArXivLibrary/ArXivLibrary_linux_v1.0.0.AppImage
