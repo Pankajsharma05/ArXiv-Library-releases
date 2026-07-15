@@ -39,18 +39,18 @@ Each release asset can be downloaded directly with `curl`. The
 
 ```bash
 # macOS (Apple Silicon)
-curl -L -O https://github.com/Pankajsharma05/ArXiv-Library-releases/releases/latest/download/ArXivLibrary.dmg
+curl -L -O https://github.com/Pankajsharma05/ArXiv-Library-releases/releases/latest/download/ArXivLibrary/ArXivLibrary_macOS_v1.0.0.dmg
 
 # Windows (PowerShell)
-curl.exe -L -O https://github.com/Pankajsharma05/ArXiv-Library-releases/releases/latest/download/ArXivLibrary.exe
+curl.exe -L -O https://github.com/Pankajsharma05/ArXiv-Library-releases/releases/latest/download/ArXivLibrary/ArXivLibrary_win_v1.0.0.exe
 
 # Linux (AppImage)
-curl -L -O https://github.com/Pankajsharma05/ArXiv-Library-releases/releases/latest/download/ArXivLibrary.AppImage
+curl -L -O https://github.com/Pankajsharma05/ArXiv-Library-releases/releases/latest/download/ArXivLibrary/ArXivLibrary_linux_v1.0.0.AppImage
 chmod +x ArXivLibrary.AppImage
 ./ArXivLibrary.AppImage
 
 # Linux (.deb)
-curl -L -O https://github.com/Pankajsharma05/ArXiv-Library-releases/releases/latest/download/arxivlibrary.deb
+curl -L -O https://github.com/Pankajsharma05/ArXiv-Library-releases/releases/latest/download/ArXivLibrary/ArXivLibrary_linux_v1.0.0.deb
 sudo dpkg -i arxivlibrary.deb
 ```
 
