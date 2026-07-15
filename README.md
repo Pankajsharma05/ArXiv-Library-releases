@@ -57,13 +57,13 @@ Grab the latest build for your platform from the
 
 ```bash
 # Windows (PowerShell) — download, then double-click to run the installer
-curl.exe -L -O https://github.com/Pankajsharma05/ArXiv-Library-releases/releases/download/ArXivLibrary/ArXivLibrary_v1.0.0_x64_en-US.msi
+curl.exe -L -O https://github.com/Pankajsharma05/ArXiv-Library/releases/download/v1.0.0/ArXivLibrary_v1.0.0_x64_en-US.msi
 
 # macOS (Apple Silicon)
-curl -L -O https://github.com/Pankajsharma05/ArXiv-Library-releases/releases/download/ArXivLibrary/ArXivLibrary_macOS_v1.0.0.dmg
+curl -L -O https://github.com/Pankajsharma05/ArXiv-Library/releases/download/v1.0.0/ArXivLibrary_macOS_v1.0.0.dmg
 
 # Linux (Debian / Ubuntu)
-curl -L -O https://github.com/Pankajsharma05/ArXiv-Library-releases/releases/download/ArXivLibrary/ArXivLibrary_v1.0.0_amd64.deb
+curl -L -O https://github.com/Pankajsharma05/ArXiv-Library/releases/download/v1.0.0/ArXivLibrary_v1.0.0_amd64.deb
 sudo dpkg -i ArXivLibrary_v1.0.0_amd64.deb
 ```
 
