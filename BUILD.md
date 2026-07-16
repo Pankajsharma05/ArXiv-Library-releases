@@ -68,13 +68,7 @@ from the app, so reinstalling or updating the app never touches your library:
 - **Linux**:   `~/.local/share/ArxivLibrary/`  (or `$XDG_DATA_HOME/ArxivLibrary/`)
 - **Windows**: `%APPDATA%\ArxivLibrary\`
 
-## Notes
+## Note
 
 - The first build on a machine is slow (Rust compiles all dependencies from
   scratch). Later builds are much faster thanks to caching.
-- Windows and Linux builds are **unsigned** by default. Users may see a
-  "unknown publisher" / Gatekeeper-style warning on first launch. Code signing
-  is a separate, OS-specific step (and on Windows requires a paid certificate).
-- The two GitHub placeholder URLs (the in-app "Contact on GitHub" button and the
-  Crossref User-Agent header) still read `https://github.com`. Replace them with
-  your real URL before public distribution.
