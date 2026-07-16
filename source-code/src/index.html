@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ArXivLibrary</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <span class="logo">ArXiv<span class="logo-accent">Library</span></span>
+        <button id="theme-toggle" class="mini-btn" title="Toggle light/dark">◐</button>
+        <button id="collapse-detail" class="mini-btn" title="Toggle abstract panel">⇲</button>
+      </div>
+
+      <nav class="nav-section">
+        <div class="nav-label">Browse</div>
+        <button class="nav-item active" data-view="search">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span> Search arXiv
+        </button>
+        <button class="nav-item" data-view="feed">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.5" fill="currentColor" stroke="none"/></svg></span> Daily Feed
+        </button>
+        <button class="nav-item" data-view="graph">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="7" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="13" cy="18" r="2.5"/><line x1="8.2" y1="8.4" x2="11" y2="16"/><line x1="8.4" y1="6.6" x2="15.6" y2="6.2"/><line x1="16.6" y1="8" x2="14" y2="15.8"/></svg></span> Graph
+        </button>
+      </nav>
+
+      <nav class="nav-section">
+        <div class="nav-label">
+          Saved Searches
+          <button id="add-saved-search" class="mini-btn" title="New saved search">+</button>
+        </div>
+        <div id="saved-searches-list"></div>
+      </nav>
+
+      <nav class="nav-section">
+        <div class="nav-label">Library</div>
+        <button class="nav-item" data-view="smart" data-smart="all">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H10a1.5 1.5 0 0 1 1.5 1.5V20l-3.75-2L4 20V5.5Z"/><path d="M14 4h4.5A1.5 1.5 0 0 1 20 5.5V20"/></svg></span> All Papers
+        </button>
+        <button class="nav-item" data-view="smart" data-smart="unsorted">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M4 12h10"/><path d="M4 17h7"/><circle cx="18" cy="16" r="3"/></svg></span> Unsorted
+        </button>
+        <button class="nav-item" data-view="smart" data-smart="recent">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span> Recently Added
+        </button>
+        <button class="nav-item" data-view="smart" data-smart="trash">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7"/><path d="M6 7l1 12.5A1.5 1.5 0 0 0 8.5 21h7a1.5 1.5 0 0 0 1.5-1.5L18 7"/></svg></span> Trash
+        </button>
+        <button class="nav-item" data-view="history">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 1 2.6 6.1"/><path d="M3.5 18v-4h4"/><path d="M12 7.5V12l3 2"/></svg></span> History
+        </button>
+        <button class="nav-item" data-view="bibliography">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h10a2 2 0 0 1 2 2v14l-4.5-2.2L8 20V6a2 2 0 0 0-2-2Z"/><path d="M17 6h2v12"/></svg></span> Bibliography
+        </button>
+      </nav>
+
+      <nav class="nav-section">
+        <div class="nav-label">
+          Collections
+          <button id="add-collection" class="mini-btn" title="New collection">+</button>
+        </div>
+        <div id="collections-list"></div>
+      </nav>
+
+      <nav class="nav-section">
+        <div class="nav-label">
+          Tags
+          <button id="add-tag" class="mini-btn" title="New tag">+</button>
+        </div>
+        <div id="tags-list"></div>
+      </nav>
+
+      <nav class="nav-section" id="archived-section" style="display:none">
+        <div class="nav-label">Archived</div>
+        <div id="archived-list"></div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="open-settings" class="footer-btn">⚙ Settings</button>
+      </div>
+    </aside>
+
+    <div class="resizer" id="resizer-1"></div>
+
+    <section id="list-pane">
+      <div id="search-panel" class="hidden">
+        <div id="search-bar">
+          <div class="search-input-wrap">
+            <input id="search-input" type="text" placeholder="Search arXiv" />
+            <button id="search-clear" class="search-clear hidden" title="Clear">&times;</button>
+          </div>
+          <select id="quick-sort" title="Sort results">
+            <option value="relevance">Relevant</option>
+            <option value="submittedDate">Newest</option>
+            <option value="lastUpdatedDate">Recently updated</option>
+            <option value="submittedDateOldest">Oldest</option>
+          </select>
+          <button id="search-btn">Search</button>
+          <button id="adv-toggle" class="ghost-btn" title="Advanced search">Advanced &#9662;</button>
+        </div>
+
+        <div id="adv-panel" class="hidden">
+          <div class="adv-row">
+            <label>Field</label>
+            <select id="adv-field">
+              <option value="all">All fields</option>
+              <option value="ti">Title</option>
+              <option value="au">Author(s)</option>
+              <option value="abs">Abstract</option>
+              <option value="co">Comments</option>
+              <option value="jr">Journal reference</option>
+              <option value="cat">Category</option>
+              <option value="rn">Report number</option>
+              <option value="id">arXiv identifier</option>
+            </select>
+          </div>
+
+          <div class="adv-row">
+            <label>Subject</label>
+            <select id="adv-subject">
+              <option value="">Any subject</option>
+              <option value="cond-mat">Condensed Matter (cond-mat)</option>
+              <option value="cond-mat.supr-con">cond-mat.supr-con</option>
+              <option value="cond-mat.mes-hall">cond-mat.mes-hall</option>
+              <option value="cond-mat.str-el">cond-mat.str-el</option>
+              <option value="quant-ph">Quantum Physics (quant-ph)</option>
+              <option value="hep-th">High Energy Physics &#8211; Theory (hep-th)</option>
+              <option value="physics">Physics (physics.*)</option>
+              <option value="math">Mathematics (math)</option>
+              <option value="cs">Computer Science (cs)</option>
+              <option value="stat">Statistics (stat)</option>
+              <option value="q-bio">Quantitative Biology (q-bio)</option>
+              <option value="q-fin">Quantitative Finance (q-fin)</option>
+              <option value="econ">Economics (econ)</option>
+              <option value="eess">Electrical Engineering (eess)</option>
+            </select>
+          </div>
+
+          <div class="adv-row">
+            <label>Date</label>
+            <select id="adv-date">
+              <option value="all">All dates</option>
+              <option value="12m">Past 12 months</option>
+              <option value="year">Specific year</option>
+              <option value="range">Date range</option>
+            </select>
+          </div>
+          <div class="adv-row hidden" id="adv-year-row">
+            <label>Year</label>
+            <input id="adv-year" type="text" placeholder="YYYY" maxlength="4" />
+          </div>
+          <div class="adv-row hidden" id="adv-range-row">
+            <label>From &#8594; To</label>
+            <input id="adv-from" type="text" placeholder="YYYY-MM-DD" />
+            <input id="adv-to" type="text" placeholder="YYYY-MM-DD" />
+          </div>
+
+          <div class="adv-row">
+            <label>Sort</label>
+            <select id="adv-sort">
+              <option value="relevance">Relevance</option>
+              <option value="submittedDate">Submission date (newest)</option>
+              <option value="submittedDateOldest">Submission date (oldest)</option>
+              <option value="lastUpdatedDate">Last updated (newest)</option>
+            </select>
+          </div>
+          <div class="adv-row">
+            <label>Results</label>
+            <select id="adv-count">
+              <option value="25">25</option>
+              <option value="50" selected>50</option>
+              <option value="100">100</option>
+              <option value="200">200</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div id="list-header">
+        <div class="nav-history">
+          <button id="nav-back" class="nav-hist-btn" title="Back" disabled>‹</button>
+          <button id="nav-forward" class="nav-hist-btn" title="Forward" disabled>›</button>
+        </div>
+        <span id="list-title" class="list-title">All Papers</span>
+        <div id="list-actions"></div>
+      </div>
+      <div id="library-controls" class="hidden">
+        <div class="search-input-wrap lib-filter-wrap">
+          <input id="lib-filter" type="text" placeholder="Filter saved papers…" />
+          <button id="lib-filter-clear" class="search-clear hidden" title="Clear">&times;</button>
+        </div>
+        <select id="lib-sort">
+          <option value="added">Date added</option>
+          <option value="published">Publication date</option>
+          <option value="title">Title</option>
+          <option value="author">First author</option>
+          <option value="opened">Last opened</option>
+        </select>
+        <select id="lib-status">
+          <option value="">All</option>
+          <option value="unread">Unread</option>
+          <option value="reading">Reading</option>
+          <option value="read">Read</option>
+          <option value="archived">Archived</option>
+        </select>
+        <button id="density-toggle" class="ghost-btn" title="Toggle density">≡</button>
+      </div>
+      <div id="feed-controls" class="hidden">
+        <div id="feed-cats" class="feed-cats"></div>
+        <button id="feed-add-cat" class="ghost-btn" title="Add category">+ category</button>
+        <button id="feed-refresh" class="ghost-btn" title="Refresh feed">↻ Refresh</button>
+      </div>
+      <div id="bib-controls" class="hidden">
+        <input id="bib-doi-input" type="text" placeholder="Paste a DOI (e.g. 10.1103/PhysRevB.108.054503)…" />
+        <button id="bib-add" class="btn-primary">Add</button>
+        <button id="bib-import" class="ghost-btn">Import ▾</button>
+        <button id="bib-export" class="ghost-btn">Export ▾</button>
+      </div>
+      <div id="ss-controls" class="hidden">
+        <span class="ss-desc" id="ss-desc"></span>
+        <button id="ss-edit" class="ghost-btn" title="Edit this search">Edit</button>
+        <button id="ss-refresh" class="ghost-btn" title="Refresh results">↻ Refresh</button>
+      </div>
+      <div id="paper-list" class="paper-list"></div>
+    </section>
+
+    <div class="resizer" id="resizer-2"></div>
+
+    <section id="detail-pane">
+      <div class="empty-detail" id="empty-detail">
+        <div class="empty-icon">&#9712;</div>
+        <p>Select a paper to read its abstract, add notes, or open the PDF.</p>
+      </div>
+      <div id="detail-content" class="hidden"></div>
+    </section>
+
+    <!-- Graph view spans list+detail when active -->
+    <section id="graph-view" class="hidden">
+      <div id="graph-toolbar">
+        <div class="graph-scope">
+          <label>Show</label>
+          <select id="graph-scope-select">
+            <option value="all">Whole library</option>
+          </select>
+        </div>
+        <span class="graph-hint">Drag a node onto another to connect &middot; click a node to open &middot; click an edge to edit</span>
+        <div class="graph-zoom">
+          <button id="graph-zoom-out">&#8722;</button>
+          <button id="graph-zoom-reset">Reset</button>
+          <button id="graph-zoom-in">+</button>
+        </div>
+      </div>
+      <canvas id="graph-canvas"></canvas>
+      <div id="graph-empty" class="empty-list hidden">
+        <div class="empty-icon">&#9901;</div>
+        <p>No papers to graph yet. Save some papers, then connect them here.</p>
+      </div>
+    </section>
+  </div>
+
+  <div id="pdf-overlay" class="hidden">
+    <div class="pdf-toolbar">
+      <button id="pdf-close">&#10005; Close</button>
+      <button id="pdf-sidebar-toggle" title="Open documents">&#9776;</button>
+      <span id="pdf-title"></span>
+      <div class="pdf-search">
+        <input id="pdf-search-input" type="text" placeholder="Search in PDF&#8230;" />
+        <button id="pdf-search-prev" title="Previous">&#9650;</button>
+        <button id="pdf-search-next" title="Next">&#9660;</button>
+        <span id="pdf-search-count"></span>
+      </div>
+      <div class="pdf-zoom">
+        <button id="pdf-zoom-out">&#8722;</button>
+        <span id="pdf-zoom-level">100%</span>
+        <button id="pdf-zoom-in">+</button>
+        <button id="pdf-fit-width" title="Fit width">Fit</button>
+      </div>
+    </div>
+    <div id="pdf-body">
+      <aside id="pdf-doc-list" aria-label="Open documents"></aside>
+      <div id="pdf-viewer"></div>
+    </div>
+  </div>
+
+  <div id="quick-search-overlay" class="hidden">
+    <div class="quick-search-box">
+      <span class="qs-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+      <input id="quick-search-input" type="text" placeholder="Quick search arXiv…" autocomplete="off" />
+      <span class="qs-hint">↵ to search · esc to close</span>
+    </div>
+  </div>
+
+  <div id="modal" class="hidden">
+    <div class="modal-box">
+      <div id="modal-title">New Collection</div>
+      <input id="modal-input" type="text" />
+      <div class="modal-actions">
+        <button id="modal-cancel" class="btn-secondary">Cancel</button>
+        <button id="modal-ok" class="btn-primary">Create</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="color-modal" class="hidden">
+    <div class="modal-box color-modal-box">
+      <div id="color-modal-title">Collection Color</div>
+      <div class="picker-main">
+        <canvas id="sv-canvas" width="240" height="160"></canvas>
+        <canvas id="hue-canvas" width="20" height="160"></canvas>
+      </div>
+      <div class="picker-preview-row">
+        <span id="color-preview" class="color-preview"></span>
+        <div class="picker-inputs">
+          <label>HEX <input id="hex-input" type="text" maxlength="7" value="#b3261e" /></label>
+          <label>R <input id="r-input" class="rgb-input" type="number" min="0" max="255" /></label>
+          <label>G <input id="g-input" class="rgb-input" type="number" min="0" max="255" /></label>
+          <label>B <input id="b-input" class="rgb-input" type="number" min="0" max="255" /></label>
+        </div>
+      </div>
+      <div class="color-swatches" id="color-swatches"></div>
+      <div class="modal-actions">
+        <button class="btn-secondary" id="color-clear">No color</button>
+        <button id="color-cancel" class="btn-secondary">Cancel</button>
+        <button id="color-ok" class="btn-primary">Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="edge-modal" class="hidden">
+    <div class="modal-box">
+      <div id="edge-modal-title">Connect Papers</div>
+      <div class="edge-papers" id="edge-papers"></div>
+      <label class="edge-label-l">Label (optional)</label>
+      <input id="edge-label" type="text" placeholder="e.g. extends, contradicts, uses method from…" />
+      <label class="edge-label-l">Direction</label>
+      <div class="edge-dir" id="edge-dir">
+        <button data-dir="none" class="dir-btn active">A — B</button>
+        <button data-dir="forward" class="dir-btn">A → B</button>
+        <button data-dir="both" class="dir-btn">A ↔ B</button>
+      </div>
+      <div class="modal-actions">
+        <button id="edge-delete" class="btn-secondary danger-btn hidden">Delete</button>
+        <button id="edge-cancel" class="btn-secondary">Cancel</button>
+        <button id="edge-ok" class="btn-primary">Connect</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="hidden"></div>
+
+  <!-- First-run name prompt -->
+  <div id="name-modal" class="hidden">
+    <div class="modal-box">
+      <div id="modal-title">Welcome to ArXivLibrary</div>
+      <p class="modal-sub">What should we call you?</p>
+      <input id="name-input" type="text" placeholder="Your name" />
+      <div class="modal-actions">
+        <button id="name-ok" class="btn-primary">Get started</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Saved search creation -->
+  <div id="saved-search-modal" class="hidden">
+    <div class="modal-box">
+      <div id="ss-modal-title">New Saved Search</div>
+      <label class="edge-label-l">Title</label>
+      <input id="ss-title" type="text" placeholder="e.g. Altermagnet superconductors" />
+      <label class="edge-label-l">Keywords</label>
+      <input id="ss-keywords" type="text" placeholder="e.g. altermagnet superconductor Majorana" />
+      <label class="edge-label-l">Search in</label>
+      <select id="ss-field" class="status-select" style="width:100%">
+        <option value="all">All fields</option>
+        <option value="ti">Title</option>
+        <option value="abs">Abstract</option>
+        <option value="au">Author</option>
+        <option value="cat">Category</option>
+      </select>
+      <label class="edge-label-l">Sort by</label>
+      <select id="ss-sort" class="status-select" style="width:100%">
+        <option value="relevance">Relevant</option>
+        <option value="submittedDate">Newest</option>
+        <option value="lastUpdatedDate">Recently updated</option>
+        <option value="submittedDateOldest">Oldest</option>
+      </select>
+      <div class="modal-actions">
+        <button id="ss-cancel" class="btn-secondary">Cancel</button>
+        <button id="ss-ok" class="btn-primary">Create</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category picker -->
+  <div id="category-modal" class="hidden">
+    <div class="modal-box category-modal-box">
+      <div id="modal-title">Add Categories to Your Feed</div>
+      <div class="search-input-wrap lib-filter-wrap">
+        <input id="category-search" type="text" placeholder="Filter categories…" />
+        <button id="category-search-clear" class="search-clear hidden" title="Clear">&times;</button>
+      </div>
+      <div id="category-list" class="category-list"></div>
+      <div class="modal-actions">
+        <button id="category-cancel" class="btn-secondary">Cancel</button>
+        <button id="category-ok" class="btn-primary">Add Selected</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Onboarding tour -->
+  <div id="onboarding-overlay" class="hidden">
+    <div class="onboard-box">
+      <h2>Welcome to ArXivLibrary ✦</h2>
+      <p class="onboard-sub">A quick tour of what you can do:</p>
+      <div class="onboard-feature">
+        <span class="of-icon">⌕</span>
+        <span class="of-text"><strong>Search & save</strong> — search arXiv, then save papers to your library. Drag results onto a collection or tag to file them instantly.</span>
+      </div>
+      <div class="onboard-feature">
+        <span class="of-icon">✦</span>
+        <span class="of-text"><strong>Daily Feed</strong> — follow categories like cond-mat.supr-con to see the newest papers each day.</span>
+      </div>
+      <div class="onboard-feature">
+        <span class="of-icon">⊛</span>
+        <span class="of-text"><strong>Graph</strong> — connect related papers with labelled arrows and explore your library visually.</span>
+      </div>
+      <div class="onboard-feature">
+        <span class="of-icon">☷</span>
+        <span class="of-text"><strong>Organize</strong> — collections, colored tags, reading status, and Markdown notes. Right-click any paper for actions, or multi-select with checkboxes.</span>
+      </div>
+      <div class="onboard-feature">
+        <span class="of-icon">⌨</span>
+        <span class="of-text"><strong>Tips</strong> — ⌘F to filter, ↑/↓ to navigate, collapse panels from the header/corner, and find time stats + feedback in Settings.</span>
+      </div>
+      <div class="modal-actions">
+        <button id="onboard-done" class="btn-primary">Start exploring</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings overlay -->
+  <div id="settings-overlay" class="hidden">
+    <div class="settings-panel">
+      <div class="settings-head">
+        <h2>Settings</h2>
+        <button id="settings-close" class="mini-btn">✕</button>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-label">Name</div>
+        <div class="settings-row">
+          <span id="settings-name" class="settings-value">—</span>
+          <button id="rename-user" class="btn-secondary">Rename</button>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-label">Time spent</div>
+        <div class="settings-row"><span class="settings-value">Total</span><span id="time-total">—</span></div>
+        <div class="settings-row"><span class="settings-value">Today</span><span id="time-today">—</span></div>
+        <div class="settings-row"><span class="settings-value">This week</span><span id="time-week">—</span></div>
+        <div id="time-breakdown" class="time-breakdown"></div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-label">Downloaded PDFs</div>
+        <div class="settings-row">
+          <span class="settings-value">Storage used</span><span id="pdf-storage">—</span>
+        </div>
+        <div class="settings-actions">
+          <select id="pdf-del-collection" class="save-collection-select"></select>
+          <button id="del-collection-pdfs" class="btn-secondary">Delete PDFs in collection</button>
+        </div>
+        <div class="settings-actions">
+          <button id="del-all-pdfs" class="btn-secondary danger-btn">Delete ALL downloaded PDFs</button>
+        </div>
+        <p class="settings-hint">This removes PDF files only — your library entries, notes, and collections stay. You can re-download anytime. (To delete a single paper's PDF, use the Read/Download area or right-click a paper.)</p>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-label">Appearance</div>
+        <div class="settings-row">
+          <span class="settings-value">Theme</span>
+          <select id="theme-select" class="save-collection-select"></select>
+        </div>
+        <div class="settings-row">
+          <span class="settings-value">Custom theme (base + accent)</span>
+          <div class="theme-actions">
+            <button id="new-theme-btn" class="btn-secondary">+ New theme</button>
+            <button id="delete-theme-btn" class="btn-secondary">Delete</button>
+          </div>
+        </div>
+        <div class="settings-row">
+          <span class="settings-value">Accent — dark mode</span>
+          <button id="accent-dark-btn" class="accent-swatch-btn"><span class="accent-swatch" id="accent-dark-swatch"></span>Choose</button>
+        </div>
+        <div class="settings-row">
+          <span class="settings-value">Accent — light mode</span>
+          <button id="accent-light-btn" class="accent-swatch-btn"><span class="accent-swatch" id="accent-light-swatch"></span>Choose</button>
+        </div>
+        <div class="settings-row">
+          <span class="settings-value">Reset light/dark accents to default</span>
+          <button id="accent-reset" class="btn-secondary">Reset</button>
+        </div>
+        <div class="settings-row">
+          <span class="settings-value">Font size</span>
+          <div class="font-size-control">
+            <button id="font-smaller" class="btn-secondary font-step" title="Smaller (⌘−)">A−</button>
+            <span id="font-scale-value">100%</span>
+            <button id="font-larger" class="btn-secondary font-step" title="Larger (⌘+)">A+</button>
+          </div>
+        </div>
+        <div class="settings-row">
+          <span class="settings-value">Font type</span>
+          <select id="font-family-select" class="save-collection-select">
+            <option value="system">System (Sans)</option>
+            <option value="serif">Serif</option>
+            <option value="mono">Monospace</option>
+            <option value="rounded">Rounded</option>
+          </select>
+        </div>
+        <div class="settings-row">
+          <span class="settings-value">Save arXiv search history</span>
+          <label class="switch"><input type="checkbox" id="search-history-setting" checked><span class="slider-sw"></span></label>
+        </div>
+        <div class="settings-row">
+          <span class="settings-value">Show suggestions from history while typing</span>
+          <label class="switch"><input type="checkbox" id="search-suggest-setting" checked><span class="slider-sw"></span></label>
+        </div>
+        <div class="settings-row">
+          <span class="settings-value">View keyboard shortcuts</span>
+          <button id="view-shortcuts" class="btn-secondary">View</button>
+        </div>
+        <div class="settings-row">
+          <span class="settings-value">View search history</span>
+          <button id="view-search-history" class="btn-secondary">View</button>
+        </div>
+        <div class="settings-row">
+          <span class="settings-value">Clear search history</span>
+          <button id="clear-search-history" class="btn-secondary">Clear</button>
+        </div>
+        <div class="settings-row">
+          <span class="settings-value">Swap list and abstract panels</span>
+          <label class="switch"><input type="checkbox" id="swap-panels-setting"><span class="slider-sw"></span></label>
+        </div>
+        <div class="settings-row">
+          <span class="settings-value">Show archived collections</span>
+          <label class="switch"><input type="checkbox" id="archived-toggle-setting" checked><span class="slider-sw"></span></label>
+        </div>
+        <div class="settings-row">
+          <span class="settings-value">Show Daily Feed in sidebar</span>
+          <label class="switch"><input type="checkbox" id="feed-toggle-setting" checked><span class="slider-sw"></span></label>
+        </div>
+        <div class="settings-row">
+          <span class="settings-value">Show Graph in sidebar</span>
+          <label class="switch"><input type="checkbox" id="graph-toggle-setting" checked><span class="slider-sw"></span></label>
+        </div>
+        <div class="settings-row">
+          <span class="settings-value">Track view history (last 50 papers)</span>
+          <label class="switch"><input type="checkbox" id="history-toggle-setting" checked><span class="slider-sw"></span></label>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-label">Data</div>
+        <p class="settings-hint">Back up your whole library, or export every DOI you've collected.</p>
+        <div class="settings-actions">
+          <button id="backup-library" class="btn-secondary">Backup / Restore…</button>
+          <button id="export-library" class="btn-secondary">Export all DOIs…</button>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-label">Feedback</div>
+        <p class="settings-hint">Found a bug or have a feature idea? I'd love to hear it.</p>
+        <div class="settings-actions">
+          <button id="send-feedback" class="btn-secondary">Contact on GitHub</button>
+          <button id="show-tour" class="btn-secondary">↻ Show tour again</button>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-label">About</div>
+        <div class="about-text">
+          <strong>ArXivLibrary</strong><br/>
+          Version 1.0<br/><br/>
+          An arXiv-native research library — search, organize, annotate, and connect papers.<br/><br/>
+          Developed by Pankaj Sharma.<br/>
+          Built with Tauri, Rust, and Claude (Anthropic).<br/><br/>
+          This project uses the arXiv API. Thank you to arXiv for use of its open access interoperability. ArXivLibrary is an independent project and is not affiliated with or endorsed by arXiv.<br/><br/>
+          With thanks to the open scholarly infrastructure that makes this possible: <strong>Semantic Scholar</strong> (citation data and DOI resolution), <strong>Crossref</strong> (DOI metadata lookup), and the <strong>DOI</strong> system. ArXivLibrary is independent and not affiliated with or endorsed by any of these services.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
