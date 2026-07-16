@@ -106,7 +106,7 @@ If dependencies are missing, follow up with `sudo apt-get install -f`.
 
 ## Feedback
 
-Found a bug or have a feature request? Please
+Found a bug. Please
 [open an issue](https://github.com/Pankajsharma05/ArXiv-Library-releases/issues).
 
 ---
@@ -125,8 +125,8 @@ This project would not be possible without their open APIs.
 ---
 
 ## License
+MIT — see **[LICENSE](LICENSE)**.
 
-ArXivLibrary is proprietary software, free for personal and academic use.
-See [LICENSE](LICENSE) for details.
-
-Copyright © 2026 Pankaj Sharma.
+Third-party components (fonts, libraries, APIs) and their licenses are listed in
+**[THIRD-PARTY-LICENSES.md](THIRD-PARTY-LICENSES.md)**. All are permissive and
+MIT-compatible.
